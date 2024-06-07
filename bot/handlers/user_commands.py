@@ -29,7 +29,6 @@ async def help_message(message: types.Message):
 
 @router.message(Dialog.main)
 async def main_menu(message: types.Message, state: FSMContext):
-    print("xxx")
     await state.set_state(Dialog.region)
     await message.answer(get_text(text_name="main"), reply_markup=main_menu_actions_list)
 
