@@ -6,8 +6,6 @@ import matplotlib.pyplot as plt
 import datetime
 import os
 
-# region = 'СЗ'
-
 def prepare_Data(data, res, region):
 
     data2 = pd.DataFrame(columns=['year', 'month', region, 'mean3'])

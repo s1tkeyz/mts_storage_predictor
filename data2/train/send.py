@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import datetime
 import os
 
+
 def prepareData(data, res, region):
     data2 = pd.DataFrame(columns=['year', 'month', region, 'mean3'])
     data2['year'] = data['year']
@@ -28,7 +29,7 @@ def prepareData(data, res, region):
     y_test = res[region]
 
     return X_train, X_test, y_train, y_test
-
+  
 async def send_data_predict(region, amount, chat_id):
     dataset = read_csv(f'{os.environ.get("PWD")}/../data2/send plan restored.csv', delimiter=',')
     dataset2 = read_csv(f'{os.environ.get("PWD")}/../data2/send fact restored.csv', delimiter=',')
@@ -43,7 +44,6 @@ async def send_data_predict(region, amount, chat_id):
     plt.plot(dataset['data'], dataset2[region], label='Факт')
     ax.set_xlabel('Data')
     ax.set_ylabel('Amount of items')
-    
 
     x = pd.DataFrame(columns=['year', 'month', region, 'mean3'])
     # amount = input().split()
