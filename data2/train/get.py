@@ -33,7 +33,7 @@ def prepare_Data(data, res, region):
 
     return X_train, X_test, y_train, y_test
 
-async def get_data_predict(region, amount):
+async def get_data_predict(region, amount, chat_id):
     dataset = read_csv(f'{os.environ.get("PWD")}/../data2/get plan restored.csv', delimiter=',')
     dataset2 = read_csv(f'{os.environ.get("PWD")}/../data2/get fact restored.csv', delimiter=',')
 
@@ -45,9 +45,11 @@ async def get_data_predict(region, amount):
     lr.fit(X_train, y_train)
     prediction = lr.predict(X_test)
 
-    plt.figure(figsize=(15, 7))
-    plt.plot(dataset['data'], dataset2[region], prediction)
-    plt.savefig('get1.png')
+    fig, ax = plt.subplots(figsize=(5, 3))
+    fig.subplots_adjust(bottom=0.15, left=0.2)
+    plt.plot(dataset['data'], dataset2[region], label='Факт')
+    ax.set_xlabel('Data')
+    ax.set_ylabel('Amount of items')
 
     x = pd.DataFrame(columns=['year', 'month', region, 'mean3'])
     # amount = input().split()
@@ -72,5 +74,7 @@ async def get_data_predict(region, amount):
         res += [prediction[i]]
 
     # plt.figure(figsize=(15, 7))
-    plt.plot(data, res)
-    plt.savefig('get2.png')
+    plt.plot(data, res, label="Прогноз")
+    ax.legend()
+    plt.savefig(f'get{str(chat_id)}.png')
+    return prediction

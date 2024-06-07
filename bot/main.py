@@ -3,9 +3,6 @@ import asyncio
 from dotenv import load_dotenv
 import os
 from handlers import user_commands
-import sys
-
-sys.path.append(f'{os.environ.get("PWD")}/..')
 
 load_dotenv()
 
