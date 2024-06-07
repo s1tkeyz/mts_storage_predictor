@@ -49,6 +49,7 @@ for i in range(n_tests):
 
     overall_test_time += (t_end - t_start)
     abs_errors = 100 * abs((y_result - y_test.values) / y_test)
+    #rmse r2
     test_errors = concat([tests_errors, abs_errors])
 
 print(f"AFTER {n_tests} ITERATIONS")
