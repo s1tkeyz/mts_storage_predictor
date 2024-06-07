@@ -4,12 +4,12 @@ from sklearn.neighbors import KNeighborsRegressor
 from sklearn.linear_model import LinearRegression, RANSACRegressor, ARDRegression
 import matplotlib.pyplot as plt
 import datetime
+import os
 
-region = 'СЗ'
+# region = 'СЗ'
 
-def prepareData(data, res):
+def prepare_Data(data, res, region):
 
-    global region
     data2 = pd.DataFrame(columns=['year', 'month', region, 'mean3'])
     data2['year'] = data['year']
     data2['month'] = data['month']
@@ -33,43 +33,44 @@ def prepareData(data, res):
 
     return X_train, X_test, y_train, y_test
 
-dataset = read_csv('../get plan restored.csv', delimiter=',')
-dataset2 = read_csv('../get fact restored.csv', delimiter=',')
+async def get_data_predict(region, amount):
+    dataset = read_csv(f'{os.environ.get("PWD")}/../data2/get plan restored.csv', delimiter=',')
+    dataset2 = read_csv(f'{os.environ.get("PWD")}/../data2/get fact restored.csv', delimiter=',')
 
-X_train, X_test, y_train, y_test = prepareData(dataset, dataset2)
-lr = KNeighborsRegressor(n_neighbors=3)
-# lr = LinearRegression()
-# lr = RANSACRegressor()
-# lr = ARDRegression()
-lr.fit(X_train, y_train)
-prediction = lr.predict(X_test)
+    X_train, X_test, y_train, y_test = prepare_Data(dataset, dataset2, region)
+    lr = KNeighborsRegressor(n_neighbors=3)
+    # lr = LinearRegression()
+    # lr = RANSACRegressor()
+    # lr = ARDRegression()
+    lr.fit(X_train, y_train)
+    prediction = lr.predict(X_test)
 
-plt.figure(figsize=(15, 7))
-plt.plot(dataset['data'], dataset2[region], prediction)
-plt.show()
+    plt.figure(figsize=(15, 7))
+    plt.plot(dataset['data'], dataset2[region], prediction)
+    plt.savefig('get1.png')
 
-x = pd.DataFrame(columns=['year', 'month', region, 'mean3'])
-amount = input().split()
-for i in range(len(amount)):
-    mean = 0
-    if i == 0:
-        mean = (int(amount[i]) + X_test.at[len(X_test.index) - 1, region] + X_test.at[len(X_test.index) - 2, region]) / 3
-    elif i == 1:
-        mean = (int(amount[i]) + int(amount[i - 1]) + X_test.at[len(X_test.index) - 1, region]) / 3
-    else:
-        mean = (int(amount[i - 1]) + int(amount[i]) + int(amount[i - 2])) / 3
-    x.loc[len(x.index)] = [datetime.date.today().year, datetime.date.today().month + i + 1, int(amount[i]), mean]
+    x = pd.DataFrame(columns=['year', 'month', region, 'mean3'])
+    # amount = input().split()
+    for i in range(len(amount)):
+        mean = 0
+        if i == 0:
+            mean = (int(amount[i]) + X_test.at[len(X_test.index) - 1, region] + X_test.at[len(X_test.index) - 2, region]) / 3
+        elif i == 1:
+            mean = (int(amount[i]) + int(amount[i - 1]) + X_test.at[len(X_test.index) - 1, region]) / 3
+        else:
+            mean = (int(amount[i - 1]) + int(amount[i]) + int(amount[i - 2])) / 3
+        x.loc[len(x.index)] = [datetime.date.today().year, datetime.date.today().month + i + 1, int(amount[i]), mean]
 
-count = 60
-data = [count - 1]
-for i in range(len(amount)):
-    data += [count + i]
+    count = 60
+    data = [count - 1]
+    for i in range(len(amount)):
+        data += [count + i]
 
-prediction = lr.predict(x)
-res = [dataset2.at[len(dataset2.index) - 1, region]]
-for i in range(len(prediction)):
-    res += [prediction[i]]
+    prediction = lr.predict(x)
+    res = [dataset2.at[len(dataset2.index) - 1, region]]
+    for i in range(len(prediction)):
+        res += [prediction[i]]
 
-# plt.figure(figsize=(15, 7))
-plt.plot(data, res)
-plt.show()
+    # plt.figure(figsize=(15, 7))
+    plt.plot(data, res)
+    plt.savefig('get2.png')

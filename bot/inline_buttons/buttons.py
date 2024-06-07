@@ -29,3 +29,13 @@ return_actions_list_kb = [
 ]
 
 return_actions_list = types.ReplyKeyboardMarkup(keyboard=return_actions_list_kb, resize_keyboard=True)
+
+get_answers_list_kb = [
+    [types.KeyboardButton(text='Получить число для получения')],
+    [types.KeyboardButton(text='Получить число для отправки')],
+    [types.KeyboardButton(text='Получить график для получения')],
+    [types.KeyboardButton(text='Получить график для отправки')],
+    [types.KeyboardButton(text='Главное меню')]
+]
+
+get_answers_list = types.ReplyKeyboardMarkup(keyboard=get_answers_list_kb, resize_keyboard=True)
