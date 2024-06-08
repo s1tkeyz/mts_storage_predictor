@@ -1,6 +1,7 @@
 *.csv
 *.xlsx
 */img
+**/__pycache__/
 venv
 .env
 *.out
