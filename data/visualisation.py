@@ -1,16 +1,24 @@
-import numpy as np
-import matplotlib
-matplotlib.use('tkagg')
+import pandas as pd
 import matplotlib.pyplot as plt
-from pandas import read_csv, to_datetime
-from scipy.signal import savgol_filter
-from matplotlib.cbook import boxplot_stats
+import matplotlib.patches as mpatches
 
-if __name__ == '__main__':
-    smoothed_data = read_csv('./data_smoothed_restored.csv', delimiter=';')
-    restored_data = read_csv('./data_restored.csv', delimiter=';')
 
-    smoothed_data['date'] = to_datetime(smoothed_data['date'])
-    restored_data['date'] = to_datetime(restored_data['date'])
+region = 'Сиб'
 
-    print(smoothed_data.corr())
+df = pd.read_csv('send fact restored.csv')
+df2 = pd.read_csv('send plan restored.csv')
+
+data = pd.DataFrame(columns=['data', region])
+data['data'] = df['data']
+data[region] = df[region]
+
+fig, ax = plt.subplots(figsize=(5, 3))
+fig.subplots_adjust(bottom=0.15, left=0.2)
+ax.plot(df['data'], df[region], label='fact')
+ax.plot(df['data'], df2[region], label='plan')
+ax.set_xlabel('Data')
+ax.set_ylabel('Amount of items')
+ax.legend()
+
+
+plt.show()

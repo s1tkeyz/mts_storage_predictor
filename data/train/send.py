@@ -31,8 +31,8 @@ def prepareData(data, res, region):
     return X_train, X_test, y_train, y_test
   
 async def send_data_predict(region, amount, chat_id):
-    dataset = read_csv(f'{os.environ.get("PWD")}/../data2/send plan restored.csv', delimiter=',')
-    dataset2 = read_csv(f'{os.environ.get("PWD")}/../data2/send fact restored.csv', delimiter=',')
+    dataset = read_csv(f'{os.environ.get("PWD")}/../data/send plan restored.csv', delimiter=',')
+    dataset2 = read_csv(f'{os.environ.get("PWD")}/../data/send fact restored.csv', delimiter=',')
 
     X_train, X_test, y_train, y_test = prepareData(dataset, dataset2, region)
     lr = KNeighborsRegressor(n_neighbors=3)

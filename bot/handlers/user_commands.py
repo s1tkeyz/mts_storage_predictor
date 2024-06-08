@@ -10,8 +10,8 @@ import os
 
 sys.path.append(f'{os.environ.get("PWD")}/..')
 
-from data2.train.get import get_data_predict
-from data2.train.send import send_data_predict
+from data.train.get import get_data_predict
+from data.train.send import send_data_predict
 
 load_dotenv()
 
